@@ -25,6 +25,7 @@ public:
    void insert(T nData);
    T *find(T value);
    void del(TreeNode<T> *value);
+   QString show();
    bool isEmpty();
 
    inline NodeDirection getDirection(T value);
@@ -32,7 +33,6 @@ public:
    TreeNode<T>* getNextNode(NodeDirection dir);
    bool nodeExists(const NodeDirection dir);
    template <class X> friend QDataStream &operator <<(QDataStream &stream, const TreeNode<X> &data);
-   template <class X> friend QDataStream &operator >>(QDataStream &stream, TreeNode<X> &data);
 };
 
 
@@ -64,7 +64,7 @@ void TreeNode<T>::insert(T nData)
    {
    NodeDirection currDirection;
 
-   if (data == T() || nData == this->data)      //если данные текущего элемента пустые или идентичные
+   if (data == T())      //если данные текущего элемента пустые или идентичные
       data = nData;                             // то просто запишем в него то что пришло
    else {                                       //текущий элемент не пустой, нужно добавлять ниже
       //По какую сторону отправить новый элемент?
@@ -93,14 +93,24 @@ void TreeNode<T>::del(TreeNode<T> *value)
    {
    if (value->next[ND_Right] != nullptr){
       del(next[ND_Right]);
+      delete next[ND_Right];
       value->next[ND_Right] = nullptr;
       }
    if (value->next[ND_Left] != nullptr){
       del(next[ND_Left]);
+      delete next[ND_Left];
       value->next[ND_Left] = nullptr;
       }
+   }
 
-   delete value;
+template <typename T>
+QString TreeNode<T>::show()
+   {
+   QString rw;
+   if (next[ND_Left] != nullptr) rw.append(next[ND_Left]->show());
+   rw.append(this->data.toString());
+   if (next[ND_Right] != nullptr) rw.append(next[ND_Right]->show());
+   return rw;
    }
 
 template <typename T>
@@ -126,14 +136,11 @@ QDataStream &operator <<(QDataStream &stream, TreeNode<T> &data)
    {
    for(int i =0; i<2; ++i)
       if(data.nodeExists((NodeDirection)i))
-         stream << data.getNextNode((NodeDirection)i);
+         stream << *(data.getNextNode((NodeDirection)i));
    stream << data.data;
    return stream;
    }
 
 
-
-
-
-
 #endif // TREENODE_H
+

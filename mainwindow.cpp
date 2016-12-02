@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
    connect(ui->TB_Clear, &QToolButton::clicked, ui->LE_Sender, &QLineEdit::clear);
    connect(ui->PB_GenerateCL, &QPushButton::clicked, this, &MainWindow::generateClient);
    connect(ui->PB_GenerateOP, &QPushButton::clicked, this, &MainWindow::generateOperation);
-   connect(ui->menu_3,&QMenu::aboutToShow,this,&MainWindow::testStream);
+   connect(ui->PB_TreeShow, &QPushButton::clicked, this, &MainWindow::showTree);
+   connect(ui->PB_TreeFind, &QPushButton::clicked, this, &MainWindow::findNode);
+
 
    ui->LE_Account->setInputMask(QString("999 999 999 999;_"));
    ui->LE_Amount->setValidator( new QIntValidator(INT32_MIN, INT32_MAX, this) );
@@ -74,7 +76,7 @@ void MainWindow::appendBankOperation()
       op = new BankOperation(true);
    op->setTaxeRate(ui->LE_Taxe->text().toDouble()/100.);
    op->setAmount(ui->LE_Amount->text().toInt());
-   op->setDateTime(ui->dateTimeEdit->dateTime());
+   op->setDateTime(ui->DTE_DateTime->dateTime());
    op->setReciever(ui->LE_Reciever->text(),clients.value(ui->LE_Reciever->text()));
    op->setSender(ui->LE_Sender->text(),clients.value(ui->LE_Sender->text()));
    bankOperations.append(op);
@@ -99,15 +101,33 @@ void MainWindow::generateOperation()
    ui->textBrowser->insertPlainText(op.toString(ui->CB_ShowAccountNumber->isChecked()));
    }
 
-void MainWindow::testStream()
+void MainWindow::showTree()
    {
-   BankClient client;
-   client.accountNumber = 45678643;
-   client.name.append("Пася Вупкин");
-
-   QDataStream stream;
-   stream << client;
+   ui->textBrowser->clear();
+   ui->textBrowser->setText(bankOperations.showTree());
    }
+
+void MainWindow::findNode()
+   {
+   bool *ok= false;
+   int id = ui->LE_Find->text().toInt(ok);
+   if (!*ok){
+      ui->textBrowser->insertPlainText(QString("BadID"));
+      editID = -1;
+      return;
+      }
+   auto op(bankOperations.find(id));
+   if (op == nullptr){
+      editID = -1;
+      return;
+      }
+   editID = op->getId();
+   ui->LE_Amount->setText(QString::number(op->getSendedAmount()));
+   ui->LE_Reciever->setText(op->getReciever().name);
+   ui->LE_Sender->setText(op->getSender().name);
+   ui->DTE_DateTime->setDateTime(op->getDateTime());
+   }
+
 
 void MainWindow::openFile()
    {
@@ -120,11 +140,11 @@ void MainWindow::openFile()
       {
       bankOperations.clear();
       QDataStream stream(&file);
-      stream. setVersion(QDataStream::Qt_5_6);
+      stream.setVersion(QDataStream::Qt_5_6);
       stream >> bankOperations;
       if(stream.status() != QDataStream::Ok)
          {
-         qDebug() << "Ошибка записи";
+         qDebug() << "Ошибка чтения";
          }
       }
    file.close();

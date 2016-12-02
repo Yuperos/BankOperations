@@ -28,7 +28,7 @@ QDataStream &operator >>(QDataStream &stream, TaxedBankOperation &data)
    return stream;
    }
 
-TaxedBankOperation::TaxedBankOperation()
+TaxedBankOperation::TaxedBankOperation():BankOperation()
 {
     taxeRate = 0.15;
 }

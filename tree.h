@@ -15,6 +15,8 @@ public:
 
    void append(T nData);
    void clear();
+   QString showTree();
+   T* find(int id);
    template <class X> friend QDataStream &operator<< (QDataStream &stream, const Tree<X> &data);
    template <class X> friend QDataStream &operator>> (QDataStream &stream, Tree<X> &data);
 };
@@ -32,11 +34,26 @@ void Tree<T>::append(T nData)
    {
    root->insert(nData);
    }
+
 template <typename T>
 void Tree<T>::clear()
    {
    root->del(root);
    }
+
+template <typename T>
+QString Tree<T>::showTree()
+   {
+   return (root != nullptr) ? root->show() : QString();
+   }
+
+template <typename T>
+T *Tree<T>::find(int id)
+   {
+
+   }
+
+
 
 template <typename T>
 QDataStream &operator>> (QDataStream &stream, Tree<T> &data)

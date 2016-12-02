@@ -49,7 +49,9 @@ public:
    friend bool operator<(const BankOperation& left, const BankOperation& right);
    friend QDataStream &operator <<(QDataStream &stream,  const BankOperation &data);
    friend QDataStream &operator >>(QDataStream &stream, BankOperation &data);
-};
+   quint32 getId() const;
+   void setId(const quint32 &value);
+   };
 
 
 

@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
    Q_OBJECT
 
 public:
+   int editID;
    DataGenerator dg;
    QList<QPair<QString,QString>> ClientsForGeneration;
    Tree<BankOperation> bankOperations;
@@ -40,7 +41,8 @@ private slots:
    void generateClient();
    void generateOperation();
 
-   void testStream();
+   void showTree();
+   void findNode();
 
    void openFile();
    void saveFile();

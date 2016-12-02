@@ -4,7 +4,7 @@
 #include "bankoperation.h"
 #include "bankbasetypes.h"
 
-uint32_t BankOperation::globalNextID = 0;
+uint32_t BankOperation::globalNextID = 1;
 
 void BankOperation::setDateTime(QDateTime value) { dateTime = value; }
 
@@ -88,11 +88,21 @@ void BankOperation::setReciever(const BankClient &value)
    reciever = value;
    }
 
+quint32 BankOperation::getId() const
+   {
+   return id;
+   }
+
+void BankOperation::setId(const quint32 &value)
+   {
+   id = value;
+   }
+
 BankOperation::BankOperation()
    {
-   amount.full = 0;
+   amount.full = 1;
    dateTime = QDateTime();
-   id = globalNextID;
+   id = 0;
    }
 
 BankOperation::BankOperation(bool increaseGlobalIDCount) {
@@ -113,6 +123,7 @@ BankOperation::BankOperation(QDateTime nDateTime, int32_t nAmount, BankClient nS
 
 BankOperation::BankOperation(const BankOperation &other)
    {
+   this->setId(other.getId());
    this->setDateTime(other.getDateTime());
    this->setAmount(other.getSendedAmount());
    this->setSender(other.getSender());
@@ -125,7 +136,7 @@ BankOperation::~BankOperation()
 
 
 bool operator==(const BankOperation& left, const BankOperation& right) {
-   return left.id == right.id && left.amount.full == right.amount.full;
+   return left.id == right.id;
    }
 
 bool operator>(const BankOperation &left, const BankOperation &right)

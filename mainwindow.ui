@@ -43,14 +43,26 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="LE_Find">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="PB_TreeFind">
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Найти</string>
           </property>
@@ -58,6 +70,25 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton">
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Применить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="PB_TreeShow">
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Обход</string>
           </property>
@@ -181,7 +212,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QDateTimeEdit" name="dateTimeEdit">
+               <widget class="QDateTimeEdit" name="DTE_DateTime">
                 <property name="currentSection">
                  <enum>QDateTimeEdit::DaySection</enum>
                 </property>
