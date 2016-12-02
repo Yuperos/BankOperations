@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow
    Q_OBJECT
 
 public:
-   int editID;
+   BankOperation* editOP;
    DataGenerator dg;
    QList<QPair<QString,QString>> ClientsForGeneration;
    Tree<BankOperation> bankOperations;
@@ -43,6 +43,7 @@ private slots:
 
    void showTree();
    void findNode();
+   void applyChanges();
 
    void openFile();
    void saveFile();

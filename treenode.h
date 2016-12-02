@@ -23,7 +23,7 @@ public:
    void setData(const T &value);
    T getData() const;
    void insert(T nData);
-   T *find(T value);
+   T *find(T nData);
    void del(TreeNode<T> *value);
    QString show();
    bool isEmpty();
@@ -68,9 +68,7 @@ void TreeNode<T>::insert(T nData)
       data = nData;                             // то просто запишем в него то что пришло
    else {                                       //текущий элемент не пустой, нужно добавлять ниже
       //По какую сторону отправить новый элемент?
-      currDirection = (nData > this->data)
-                      ? ND_Right
-                      : ND_Left;
+      currDirection = getDirection(nData);
 
       if (next[currDirection] == nullptr)       //Если узел ниже не создан
          next[currDirection] = new TreeNode<T>; //создаём узел в нужном направлении
@@ -79,13 +77,18 @@ void TreeNode<T>::insert(T nData)
    }
 
 template <typename T>
-T* TreeNode<T>::find(T value)
+T* TreeNode<T>::find(T nData)
    {
    if (data == T()) return nullptr;
-   if (this->data == value)
-      return this;
-   else
-      return find(getDirection(value));
+   if (this->data == nData)
+      return &(this->data);
+   else{
+      NodeDirection nd = getDirection(nData);
+      if (next[nd] != nullptr)
+         return next[nd]->find(nData);
+      else
+         return nullptr;
+      }
    }
 
 template <typename T>
@@ -117,6 +120,12 @@ template <typename T>
 bool TreeNode<T>::isEmpty()
    {
    return data.isEmpty();
+   }
+
+template <typename T>
+NodeDirection TreeNode<T>::getDirection(T value)
+   {
+   return (data < value)? ND_Right : ND_Left;
    }
 
 template <typename T>

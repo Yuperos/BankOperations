@@ -109,31 +109,30 @@ void MainWindow::showTree()
 
 void MainWindow::findNode()
    {
-   bool *ok= false;
-   int id = ui->LE_Find->text().toInt(ok);
-   if (!*ok){
+   bool ok = false;
+   int id = ui->LE_Find->text().toInt(&ok);
+   if (! ok){
       ui->textBrowser->insertPlainText(QString("BadID"));
-      editID = -1;
       return;
       }
-   auto op(bankOperations.find(id));
-   if (op == nullptr){
-      editID = -1;
+   BankOperation tempOP;
+   tempOP.setId(id);
+   editOP = bankOperations.find(tempOP);
+   if (editOP == nullptr){
       return;
       }
-   editID = op->getId();
-   ui->LE_Amount->setText(QString::number(op->getSendedAmount()));
-   ui->LE_Reciever->setText(op->getReciever().name);
-   ui->LE_Sender->setText(op->getSender().name);
-   ui->DTE_DateTime->setDateTime(op->getDateTime());
+   ui->LE_Amount->setText(QString::number(editOP->getSendedAmount()));
+   ui->LE_Reciever->setText(editOP->getReciever().name);
+   ui->LE_Sender->setText(editOP->getSender().name);
+   ui->DTE_DateTime->setDateTime(editOP->getDateTime());
    }
+
 
 
 void MainWindow::openFile()
    {
    QString path;
-   path = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                       "",
+   path = QFileDialog::getOpenFileName(this, tr("Open File"), "",
                                        tr("BankOperations (*.*, *.bop)"));
    QFile file(path);
    if(file.open(QIODevice::ReadOnly))
@@ -153,8 +152,7 @@ void MainWindow::openFile()
 void MainWindow::saveFile()
    {
    QString path;
-   path = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                       "",
+   path = QFileDialog::getSaveFileName(this, tr("Save File"), "",
                                        tr("BankOperations (*.bop)"));
    QFile file(path);
    if(file.open(QIODevice::WriteOnly))
