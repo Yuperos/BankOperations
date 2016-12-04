@@ -386,6 +386,9 @@
             <property name="text">
              <string>Показывать номер счёта</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -479,6 +482,33 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>LE_Amount</tabstop>
+  <tabstop>DTE_DateTime</tabstop>
+  <tabstop>LE_Sender</tabstop>
+  <tabstop>LE_Reciever</tabstop>
+  <tabstop>LE_Taxe</tabstop>
+  <tabstop>PB_BankOperationAppend</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>LE_Name</tabstop>
+  <tabstop>LE_Account</tabstop>
+  <tabstop>PB_ClientApply</tabstop>
+  <tabstop>PB_ClientCancel</tabstop>
+  <tabstop>PB_GenerateOP</tabstop>
+  <tabstop>PB_GenerateCL</tabstop>
+  <tabstop>CB_isTaxeOperation</tabstop>
+  <tabstop>PB_TreeFind</tabstop>
+  <tabstop>LE_Find</tabstop>
+  <tabstop>PB_ApplyChanges</tabstop>
+  <tabstop>PB_TreeShow</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>TB_Clear</tabstop>
+  <tabstop>TB_Clear_2</tabstop>
+  <tabstop>radioButton_2</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>CB_ShowAccountNumber</tabstop>
+  <tabstop>TV_Clients</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

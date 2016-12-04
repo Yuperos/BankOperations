@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     bankoperation.cpp \
     myclienttablemodel.cpp \
     taxedbankoperation.cpp \
-    datagenerator.cpp
+    datagenerator.cpp \
+    bankbasetypes.cpp
 
 HEADERS  += mainwindow.h \
     bankoperation.h \
