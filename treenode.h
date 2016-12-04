@@ -25,7 +25,7 @@ public:
    void insert(T nData);
    T *find(T nData);
    void del(TreeNode<T> *value);
-   QString show();
+   QString show(bool fullAccountNumber);
    bool isEmpty();
 
    inline NodeDirection getDirection(T value);
@@ -107,12 +107,12 @@ void TreeNode<T>::del(TreeNode<T> *value)
    }
 
 template <typename T>
-QString TreeNode<T>::show()
+QString TreeNode<T>::show(bool fullAccountNumber)
    {
    QString rw;
-   if (next[ND_Left] != nullptr) rw.append(next[ND_Left]->show());
-   rw.append(this->data.toString());
-   if (next[ND_Right] != nullptr) rw.append(next[ND_Right]->show());
+   if (next[ND_Left] != nullptr) rw.append(next[ND_Left]->show(fullAccountNumber));
+   rw.append(this->data.toString(fullAccountNumber));
+   if (next[ND_Right] != nullptr) rw.append(next[ND_Right]->show(fullAccountNumber));
    return rw;
    }
 

@@ -14,9 +14,13 @@ public:
     int32_t getRecievedAmount() const override;
     QString toString(bool show = false) override;
     void setTaxeRate(double value) override;
+    double getTaxeRate()const override;
+
 
     friend QDataStream &operator <<(QDataStream &stream, const TaxedBankOperation &data);
     friend QDataStream &operator >>(QDataStream &stream, TaxedBankOperation &data);
+
+    TaxedBankOperation operator =(const TaxedBankOperation &right);
 };
 
 #endif // TAXEDBANKOPERATION_H

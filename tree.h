@@ -15,7 +15,7 @@ public:
 
    void append(T nData);
    void clear();
-   QString showTree();
+   QString showTree(bool fullAccNumber);
    T* find(T nData);
    template <class X> friend QDataStream &operator<< (QDataStream &stream, const Tree<X> &data);
    template <class X> friend QDataStream &operator>> (QDataStream &stream, Tree<X> &data);
@@ -42,9 +42,9 @@ void Tree<T>::clear()
    }
 
 template <typename T>
-QString Tree<T>::showTree()
+QString Tree<T>::showTree(bool fullAccNumber)
    {
-   return (root != nullptr) ? root->show() : QString();
+   return (root != nullptr) ? root->show(fullAccNumber) : QString();
    }
 
 template <typename T>

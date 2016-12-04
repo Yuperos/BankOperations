@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
    connect(ui->PB_GenerateOP, &QPushButton::clicked, this, &MainWindow::generateOperation);
    connect(ui->PB_TreeShow, &QPushButton::clicked, this, &MainWindow::showTree);
    connect(ui->PB_TreeFind, &QPushButton::clicked, this, &MainWindow::findNode);
+   connect(ui->PB_ApplyChanges, &QPushButton::clicked, this, &MainWindow::applyChanges);
 
 
    ui->LE_Account->setInputMask(QString("999 999 999 999;_"));
@@ -38,6 +39,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 MainWindow::~MainWindow()
    {
    delete ui;
+   }
+
+BankOperation *MainWindow::buildOperation(bool isCounted)
+   {
+   BankOperation* op;
+   if (ui->CB_isTaxeOperation->isChecked())
+      op = new TaxedBankOperation(isCounted);
+   else
+      op = new BankOperation(isCounted);
+   op->setTaxeRate(ui->LE_Taxe->text().toDouble()/100.);
+   op->setAmount(ui->LE_Amount->text().toInt());
+   op->setDateTime(ui->DTE_DateTime->dateTime());
+   op->setReciever(ui->LE_Reciever->text(),clients.value(ui->LE_Reciever->text()));
+   op->setSender(ui->LE_Sender->text(),clients.value(ui->LE_Sender->text()));
+   return op;
    }
 
 void MainWindow::clientApplied()
@@ -69,16 +85,8 @@ void MainWindow::clientApplied()
 
 void MainWindow::appendBankOperation()
    {
-   BankOperation* op;
-   if (ui->CB_isTaxeOperation->isChecked())
-      op = new TaxedBankOperation(true);
-   else
-      op = new BankOperation(true);
-   op->setTaxeRate(ui->LE_Taxe->text().toDouble()/100.);
-   op->setAmount(ui->LE_Amount->text().toInt());
-   op->setDateTime(ui->DTE_DateTime->dateTime());
-   op->setReciever(ui->LE_Reciever->text(),clients.value(ui->LE_Reciever->text()));
-   op->setSender(ui->LE_Sender->text(),clients.value(ui->LE_Sender->text()));
+   BankOperation* op = buildOperation();
+
    bankOperations.append(op);
 
    ui->textBrowser->insertPlainText(op->toString(ui->CB_ShowAccountNumber->isChecked()));
@@ -104,7 +112,7 @@ void MainWindow::generateOperation()
 void MainWindow::showTree()
    {
    ui->textBrowser->clear();
-   ui->textBrowser->setText(bankOperations.showTree());
+   ui->textBrowser->setText(bankOperations.showTree(ui->CB_ShowAccountNumber->isChecked()));
    }
 
 void MainWindow::findNode()
@@ -127,6 +135,12 @@ void MainWindow::findNode()
    ui->DTE_DateTime->setDateTime(editOP->getDateTime());
    }
 
+void MainWindow::applyChanges()
+   {
+   BankOperation *op = buildOperation(false);
+   op->setId(editOP->getId());
+   *editOP = *op;
+   }
 
 
 void MainWindow::openFile()

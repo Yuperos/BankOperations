@@ -21,6 +21,19 @@ void BankOperation::setReciever(QString name, const uint32_t accNumber)
    reciever.accountNumber = accNumber;
    }
 
+BankOperation BankOperation::operator=(const BankOperation &right)
+   {
+   if (this == &right) {
+       return *this;
+   }
+   this->setId(right.getId());
+   this->setDateTime(right.getDateTime());
+   this->setAmount(right.getSendedAmount());
+   this->setSender(right.getSender());
+   this->setReciever(right.getReciever());
+   return *this;
+   }
+
 
 QString BankOperation::toString(bool show)
    {
@@ -33,29 +46,9 @@ QString BankOperation::toString(bool show)
    else
       temp.append("Выставлен счёт");
    out.append(QString("%1 на сумму: %2\n").arg(temp).arg(amount.sum));
+   out.append(sender.toString(show));
+   out.append(reciever.toString(show));
 
-   if(show){
-      out.append(QString("От: %1 Счёт %2 %3 %4 %5\n")
-                 .arg(sender.name)
-                 .arg(QString::number(sender.accountNumberParts[3]),3)
-                 .arg(QString::number(sender.accountNumberParts[2]),3)
-                 .arg(QString::number(sender.accountNumberParts[1]),3)
-                 .arg(QString::number(sender.accountNumberParts[0]),3));
-      out.append(QString("Для: %1 Счёт %2 %3 %4 %5\n")
-                 .arg(reciever.name)
-                 .arg(QString::number(reciever.accountNumberParts[3]),3)
-                 .arg(QString::number(reciever.accountNumberParts[2]),3)
-                 .arg(QString::number(reciever.accountNumberParts[1]),3)
-                 .arg(QString::number(reciever.accountNumberParts[0]),3));
-   } else {
-      out.append(QString("От: %1 Счёт *** *** *** %2\n")
-                 .arg(sender.name)
-                 .arg(QString::number(sender.accountNumberParts[0])));
-      out.append(QString("Для: %1 Счёт *** *** *** %2\n")
-                 .arg(reciever.name)
-                 .arg(QString::number(reciever.accountNumberParts[0])));
-      }
-   
    return out;
    }
 

@@ -30,6 +30,7 @@ public:
    BankClient getReciever() const;
 
    virtual void setTaxeRate(double value) {Q_UNUSED(value);}
+   virtual double getTaxeRate() const {return 0;}
    virtual int32_t getSendedAmount() const;
    virtual int32_t getRecievedAmount() const;
    virtual QString toString(bool show = false);
@@ -43,6 +44,8 @@ public:
    void setReciever(const BankClient &value);
    void setReciever(QString name, const uint32_t accNumber);
    bool isEmpty(){return dateTime == QDateTime() || amount.full == 0;}
+
+   BankOperation operator=(const BankOperation& right);
 
    friend bool operator==(const BankOperation& left, const BankOperation& right);
    friend bool operator>(const BankOperation& left, const BankOperation& right);

@@ -33,6 +33,7 @@ public:
 
 private:
    Ui::MainWindow *ui;
+   BankOperation* buildOperation(bool isCounted = true);
 
 private slots:
    void clientApplied();
