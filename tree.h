@@ -17,6 +17,8 @@ public:
    void clear();
    QString showTree(bool fullAccNumber);
    T* find(T nData);
+   T operator[](int i);
+
    template <class X> friend QDataStream &operator<< (QDataStream &stream, const Tree<X> &data);
    template <class X> friend QDataStream &operator>> (QDataStream &stream, Tree<X> &data);
 };
@@ -51,6 +53,14 @@ template <typename T>
 T *Tree<T>::find(T nData)
    {
    return root->find(nData);
+   }
+
+template <typename T>
+T Tree::operator[](int i)
+   {
+   T a(false);
+   a.setId(i);
+   return find(a);
    }
 
 

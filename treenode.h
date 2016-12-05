@@ -62,8 +62,6 @@ T TreeNode<T>::getData() const
    return data;
    }
 
-
-
 template <typename T>
 void TreeNode<T>::insert(T nData)
    {

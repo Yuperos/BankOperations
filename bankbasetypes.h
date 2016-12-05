@@ -11,14 +11,37 @@ enum OutType{
    OT_Private = false,
    };
 
-struct BankClient {
+class BankClient {
+public:
    QString name;
    union {
       quint8 accountNumberParts[4];
       quint32 accountNumber;
    };
+
+   BankClient(){}
+   BankClient(const BankClient &obj);
+   BankClient(QString nName, quint32 nAccountNumber);
+
    BankClient fromQPair(QPair<QString,quint32> pair);
    QString toString(bool fullNumber);
+
+   quint8 operator() (int i);
+
+   friend BankClient operator +(const BankClient &l,const BankClient &r);
+   friend BankClient operator -(const BankClient &l,const BankClient &r);
+   friend BankClient operator *(const BankClient &l,const BankClient &r);
+   friend BankClient operator /(const BankClient &l,const BankClient &r);
+
+   friend BankClient operator |(const BankClient &l,const BankClient &r);
+   friend BankClient operator &(const BankClient &l,const BankClient &r);
+   friend BankClient operator ^(const BankClient &l,const BankClient &r);
+
+   friend BankClient operator ++(const BankClient &right);
+   friend BankClient operator --(const BankClient &right);
+   friend BankClient operator ++(const BankClient &right, int);
+   friend BankClient operator --(const BankClient &right, int);
+
 };
 
 QDataStream &operator <<(QDataStream &stream, const BankClient &data);
