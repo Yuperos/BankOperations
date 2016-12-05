@@ -64,21 +64,35 @@ BankClient operator ^(const BankClient &l, const BankClient &r){
    return BankClient(l.name,l.accountNumber ^ r.accountNumber);
    }
 
-BankClient operator ++(const BankClient &bc) {
-   return bc.accountNumber+=1;
+bool operator &&(const BankClient &l, const BankClient &r){
+   return (bool)l.accountNumber && (bool)r.accountNumber;
    }
 
-BankClient operator --(const BankClient &bc) {
-   return bc.accountNumber-=1;
+bool operator ||(const BankClient &l,const BankClient &r){
+   return (bool)l.accountNumber || (bool)r.accountNumber;
    }
 
-BankClient operator ++(const BankClient &bc, int){
+bool operator !(const BankClient &right){
+   return !((bool)right.accountNumber);
+   }
+
+BankClient operator ++(BankClient &bc) {
+   bc.accountNumber+=1;
+   return bc;
+   }
+
+BankClient operator --(BankClient &bc) {
+   bc.accountNumber-=1;
+   return bc;
+   }
+
+BankClient operator ++(BankClient &bc, int){
    BankClient old(bc);
    bc.accountNumber+=1;
    return old;
    }
 
-BankClient operator --(const BankClient &bc, int){
+BankClient operator --(BankClient &bc, int){
    BankClient old(bc);
    bc.accountNumber-=1;
    return old;

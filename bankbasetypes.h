@@ -37,10 +37,14 @@ public:
    friend BankClient operator &(const BankClient &l,const BankClient &r);
    friend BankClient operator ^(const BankClient &l,const BankClient &r);
 
-   friend BankClient operator ++(const BankClient &right);
-   friend BankClient operator --(const BankClient &right);
-   friend BankClient operator ++(const BankClient &right, int);
-   friend BankClient operator --(const BankClient &right, int);
+   friend BankClient operator ++(BankClient &right);
+   friend BankClient operator --(BankClient &right);
+   friend BankClient operator ++(BankClient &right, int);
+   friend BankClient operator --(BankClient &right, int);
+
+   friend bool operator &&(const BankClient &l,const BankClient &r);
+   friend bool operator ||(const BankClient &l,const BankClient &r);
+   friend bool operator !(const BankClient &right);
 
 };
 

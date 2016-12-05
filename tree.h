@@ -13,10 +13,10 @@ class Tree
 public:
    Tree();
 
-   void append(T nData);
+   void append(T &nData);
    void clear();
    QString showTree(bool fullAccNumber);
-   T* find(T nData);
+   T find(T nData);
    T operator[](int i);
 
    template <class X> friend QDataStream &operator<< (QDataStream &stream, const Tree<X> &data);
@@ -32,7 +32,7 @@ Tree<T>::Tree()
    }
 
 template <typename T>
-void Tree<T>::append(T nData)
+void Tree<T>::append(T &nData)
    {
    root->insert(nData);
    }
@@ -50,13 +50,13 @@ QString Tree<T>::showTree(bool fullAccNumber)
    }
 
 template <typename T>
-T *Tree<T>::find(T nData)
+T Tree<T>::find(T nData)
    {
    return root->find(nData);
    }
 
 template <typename T>
-T Tree::operator[](int i)
+T Tree<T>::operator[](int i)
    {
    T a(false);
    a.setId(i);
@@ -70,7 +70,7 @@ QDataStream &operator>> (QDataStream &stream, Tree<T> &data)
    {
    while(!stream.atEnd()){
       T instance;
-      stream >> instance;
+      stream >> *instance;
       data.append(instance);
       }
    return stream;

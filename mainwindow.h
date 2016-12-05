@@ -24,7 +24,7 @@ public:
    BankOperation* editOP;
    DataGenerator dg;
    QList<QPair<QString,QString>> ClientsForGeneration;
-   Tree<BankOperation>  bankOperations;
+   Tree<BankOperation*>  bankOperations;
    MyClientTableModel* MyModel;
    QMap<QString, uint32_t> clients;
 

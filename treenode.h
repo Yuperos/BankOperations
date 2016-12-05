@@ -1,6 +1,8 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
+#include <type_traits>
+
 #include "tree.h"
 
 enum NodeDirection{
@@ -23,7 +25,7 @@ public:
    void setData(const T &value);
    T getData() const;
    void insert(T nData);
-   T *find(T nData);
+   T find(T nData);
    int height();
    void balancing();
    void del();
@@ -66,11 +68,11 @@ template <typename T>
 void TreeNode<T>::insert(T nData)
    {
    NodeDirection currDirection;
+   typedef typename std::remove_pointer<T>::type C;
+   if (nData->getId() > C::getGlobalNextID() )
+      C::setGlobalNextID(nData->getId()+1);
 
-   if (nData.getId() > T::getGlobalNextID() )
-      T::setGlobalNextID(nData.getId()+1);
-
-   if (data == T() || data == nData)      //если данные текущего элемента пустые или идентичные
+   if (data == C() || data == nData)      //если данные текущего элемента пустые или идентичные
       data = nData;                             // то просто запишем в него то что пришло
    else {                                       //текущий элемент не пустой, нужно добавлять ниже
       //По какую сторону отправить новый элемент?
@@ -83,11 +85,11 @@ void TreeNode<T>::insert(T nData)
    }
 
 template <typename T>
-T* TreeNode<T>::find(T nData)
+T TreeNode<T>::find(T nData)
    {
-   if (data == T()) return nullptr;
+   if (*data == *T()) return nullptr;
    if (this->data == nData)
-      return &(this->data);
+      return this->data;
    else{
       NodeDirection nd = getDirection(nData);
       if (next[nd] != nullptr)
@@ -129,7 +131,7 @@ QString TreeNode<T>::show(bool fullAccountNumber)
    {
    QString rw;
    if (next[ND_Left] != nullptr) rw.append(next[ND_Left]->show(fullAccountNumber));
-   rw.append(this->data.toString(fullAccountNumber));
+   rw.append(this->data->toString(fullAccountNumber));
    if (next[ND_Right] != nullptr) rw.append(next[ND_Right]->show(fullAccountNumber));
    return rw;
    }
@@ -137,7 +139,7 @@ QString TreeNode<T>::show(bool fullAccountNumber)
 template <typename T>
 bool TreeNode<T>::isEmpty()
    {
-   return data.isEmpty();
+   return data->isEmpty();
    }
 
 template <typename T>

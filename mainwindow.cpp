@@ -103,10 +103,10 @@ void MainWindow::generateClient()
 
 void MainWindow::generateOperation()
    {
-   auto op(dg.genOperation());
+   BankOperation* op = new BankOperation(dg.genOperation());
    bankOperations.append(op);
 
-   ui->textBrowser->insertPlainText(op.toString(ui->CB_ShowAccountNumber->isChecked()));
+   ui->textBrowser->insertPlainText(op->toString(ui->CB_ShowAccountNumber->isChecked()));
    }
 
 void MainWindow::showTree()
@@ -123,8 +123,8 @@ void MainWindow::findNode()
       ui->textBrowser->insertPlainText(QString("BadID"));
       return;
       }
-   BankOperation tempOP;
-   tempOP.setId(id);
+   BankOperation* tempOP = new BankOperation(false);
+   tempOP->setId(id);
    editOP = bankOperations.find(tempOP);
    if (editOP == nullptr){
       return;
