@@ -155,12 +155,14 @@ void MainWindow::openFile()
       QDataStream stream(&file);
       stream.setVersion(QDataStream::Qt_5_6);
       stream >> bankOperations;
-      if(stream.status() != QDataStream::Ok)
+      if (stream.status() != QDataStream::Ok)
          {
          qDebug() << "Ошибка чтения";
          }
       }
    file.close();
+
+   showTree();
    }
 
 void MainWindow::saveFile()
@@ -174,7 +176,7 @@ void MainWindow::saveFile()
       QDataStream stream(&file);
       stream.setVersion(QDataStream::Qt_5_6);
       stream << bankOperations;
-      if(stream.status() != QDataStream::Ok)
+      if (stream.status() != QDataStream::Ok)
          {
          qDebug() << "Ошибка записи";
          }

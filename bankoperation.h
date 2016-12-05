@@ -54,6 +54,9 @@ public:
    friend QDataStream &operator >>(QDataStream &stream, BankOperation &data);
    quint32 getId() const;
    void setId(const quint32 &value);
+
+   static quint32 getGlobalNextID();
+   static void setGlobalNextID(const quint32 &value);
    };
 
 

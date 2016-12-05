@@ -27,7 +27,7 @@ QPair<QString, quint32> DataGenerator::genClientPair()
 
    rw.append(firstName->at(first)).append(" ").append(surName->at(sur));
 
-   return QPair<QString, quint32>(rw,qrand()<<16+qrand());
+   return QPair<QString, quint32>(rw,(qrand()<<16)+qrand());
    }
 
 BankClient DataGenerator::genClient()

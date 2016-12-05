@@ -24,7 +24,10 @@ public:
    T getData() const;
    void insert(T nData);
    T *find(T nData);
-   void del(TreeNode<T> *value);
+   int height();
+   void balancing();
+   void del();
+   bool isLeaf();
    QString show(bool fullAccountNumber);
    bool isEmpty();
 
@@ -59,12 +62,17 @@ T TreeNode<T>::getData() const
    return data;
    }
 
+
+
 template <typename T>
 void TreeNode<T>::insert(T nData)
    {
    NodeDirection currDirection;
 
-   if (data == T())      //если данные текущего элемента пустые или идентичные
+   if (nData.getId() > T::getGlobalNextID() )
+      T::setGlobalNextID(nData.getId()+1);
+
+   if (data == T() || data == nData)      //если данные текущего элемента пустые или идентичные
       data = nData;                             // то просто запишем в него то что пришло
    else {                                       //текущий элемент не пустой, нужно добавлять ниже
       //По какую сторону отправить новый элемент?
@@ -90,20 +98,32 @@ T* TreeNode<T>::find(T nData)
          return nullptr;
       }
    }
+template <typename T>
+int TreeNode<T>::height()
+   {
+   int rw = (next[ND_Right] != nullptr) ? next[ND_Right]->height(): 0;
+   rw += (next[ND_Left] != nullptr) ? next[ND_Left]->height(): 0;
+   return rw;
+   }
 
 template <typename T>
-void TreeNode<T>::del(TreeNode<T> *value)
+void TreeNode<T>::del()
    {
-   if (value->next[ND_Right] != nullptr){
-      del(next[ND_Right]);
+   if (next[ND_Right] != nullptr){
+      next[ND_Right]->del();
       delete next[ND_Right];
-      value->next[ND_Right] = nullptr;
+      next[ND_Right] = nullptr;
       }
-   if (value->next[ND_Left] != nullptr){
-      del(next[ND_Left]);
+   if (next[ND_Left] != nullptr){
+      next[ND_Left]->del();
       delete next[ND_Left];
-      value->next[ND_Left] = nullptr;
+      next[ND_Left] = nullptr;
       }
+   }
+template <typename T>
+bool TreeNode<T>::isLeaf()
+   {
+   return (next[ND_Left] != nullptr) && (next[ND_Right] != nullptr);
    }
 
 template <typename T>

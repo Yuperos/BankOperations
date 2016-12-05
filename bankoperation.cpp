@@ -91,6 +91,16 @@ void BankOperation::setId(const quint32 &value)
    id = value;
    }
 
+quint32 BankOperation::getGlobalNextID()
+   {
+   return globalNextID;
+   }
+
+void BankOperation::setGlobalNextID(const quint32 &value)
+   {
+   globalNextID = value;
+   }
+
 BankOperation::BankOperation()
    {
    amount.full = 1;

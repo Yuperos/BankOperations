@@ -38,7 +38,7 @@ void Tree<T>::append(T nData)
 template <typename T>
 void Tree<T>::clear()
    {
-   root->del(root);
+   if(root) root->del();
    }
 
 template <typename T>
