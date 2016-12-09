@@ -34,6 +34,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
    ui->LE_Account->setInputMask(QString("999 999 999 999;_"));
    ui->LE_Amount->setValidator( new QIntValidator(INT32_MIN, INT32_MAX, this) );
+
+   BankOperation *bo = new BankOperation(false);
+   BankOperation *tempBo = new BankOperation(false);
+   TaxedBankOperation *tbo = new TaxedBankOperation(false);
+   *bo = dg.genOperation(false);
+   *tempBo = dg.genOperation(false);
+   tbo = (TaxedBankOperation*)tempBo;
+   tbo->setTaxeRate(0.13);
+
+   *bo = sum(*bo,*tbo);
+   *tbo = sum(*tbo,*tbo);
+   *tbo = sum(*tbo,*bo);
+   *bo = sum(*bo,*bo);
+
    }
 
 MainWindow::~MainWindow()

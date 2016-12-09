@@ -57,6 +57,7 @@ int32_t TaxedBankOperation::getRecievedAmount() const
    return amount.full + amount.sum * taxeRate;
    }
 
+
 QString TaxedBankOperation::toString(bool show)
    {
    QString out, temp;

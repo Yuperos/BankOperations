@@ -86,6 +86,11 @@ quint32 BankOperation::getId() const
    return id;
    }
 
+int32_t BankOperation::getAmount() const
+   {
+   return amount.full;
+   }
+
 void BankOperation::setId(const quint32 &value)
    {
    id = value;

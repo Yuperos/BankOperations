@@ -36,7 +36,7 @@ BankClient DataGenerator::genClient()
    }
 
 
-BankOperation DataGenerator::genOperation()
+BankOperation DataGenerator::genOperation(bool inc)
    {
-   return BankOperation(QDateTime::currentDateTime(),qrand() % 500000, genClient(),genClient(),true);
+   return BankOperation(QDateTime::currentDateTime(),qrand() % 500000, genClient(),genClient(),inc);
    }

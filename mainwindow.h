@@ -16,6 +16,8 @@ namespace Ui {
    class MainWindow;
    }
 
+typedef QPair<QList<QString>, QList<QString>> FullNameParts;
+
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
@@ -23,7 +25,7 @@ class MainWindow : public QMainWindow
 public:
    BankOperation* editOP;
    DataGenerator dg;
-   QList<QPair<QString,QString>> ClientsForGeneration;
+   FullNameParts ClientsForGeneration;
    Tree<BankOperation*>  bankOperations;
    MyClientTableModel* MyModel;
    QMap<QString, uint32_t> clients;

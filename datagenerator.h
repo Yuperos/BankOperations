@@ -16,7 +16,7 @@ public:
 
    QPair<QString,quint32> genClientPair();
    BankClient genClient();
-   BankOperation genOperation();
+   BankOperation genOperation(bool inc = true);
    };
 
 #endif // DATAGENERATOR_H
