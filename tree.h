@@ -2,6 +2,8 @@
 #define TREE_H
 
 #include <QDataStream>
+#include <mutex>
+
 
 #include "treenode.h"
 
@@ -9,6 +11,7 @@ template <typename T>
 class Tree
    {
    TreeNode<T>* root;
+   mutable std::mutex treeMutex;
 
 public:
    Tree();
@@ -41,13 +44,17 @@ void Tree<T>::append(T &nData)
 template <typename T>
 void Tree<T>::clear()
    {
+   treeMutex.lock();
    if(root) root->del();
+   treeMutex.unlock();
    }
 
 template <typename T>
 QString Tree<T>::showTree(bool fullAccNumber)
    {
+   treeMutex.lock();
    return (root != nullptr) ? root->show(fullAccNumber) : QString();
+   treeMutex.unlock();
    }
 
 template <typename T>
@@ -62,11 +69,11 @@ T Tree<T>::operator[](int i) const
    T a(false);
    a.setId(i);
    T rw;
-   if(!isTreeLock){
-      isTreeLock = true;
-      rw = find(a);
-      isTreeLock = false;
-      }
+
+   treeMutex.lock();
+   rw = find(a);
+   treeMutex.unlock();
+
    return rw;
    }
 

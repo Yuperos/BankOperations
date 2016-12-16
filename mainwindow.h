@@ -30,12 +30,19 @@ public:
    MyClientTableModel* MyModel;
    QMap<QString, uint32_t> clients;
 
+   volatile bool threads[3];
+
+   void threadAppend();
+   void threadDelete();
+   void threadShow();
+
    explicit MainWindow(QWidget *parent = 0);
    ~MainWindow();
 
 private:
    Ui::MainWindow *ui;
    BankOperation* buildOperation(bool isCounted = true);
+
 
 private slots:
    void clientApplied();
@@ -51,6 +58,16 @@ private slots:
    void openFile();
    void saveFile();
    void on_TV_Clients_doubleClicked(const QModelIndex &index);
+
+
+   void startThreadAppend() { threads[0]=true;  }
+   void startThreadDelete() { threads[1]=true;  }
+   void startThreadShow()   { threads[2]=true;   }
+   void stopThreadAppend()  { threads[0]=false;  }
+   void stopThreadDelete()  { threads[1]=false; }
+   void stopThreadShow()    { threads[2]=false; }
+   void stopAllThreads() {for(int i=0;i<3; i++) threads[i] = false; }
+
    };
 
 #endif // MAINWINDOW_H

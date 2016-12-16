@@ -2,6 +2,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
+#include <thread>
+#include <windows.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -31,9 +33,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
    connect(ui->PB_TreeFind, &QPushButton::clicked, this, &MainWindow::findNode);
    connect(ui->PB_ApplyChanges, &QPushButton::clicked, this, &MainWindow::applyChanges);
 
+   connect(ui->PB_ThreadAppendStart, &QPushButton::clicked, this,&MainWindow::startThreadAppend);
+   connect(ui->PB_ThreadDeleteStart, &QPushButton::clicked, this,&MainWindow::startThreadDelete);
+   connect(ui->PB_ThreadShowStart, &QPushButton::clicked, this,&MainWindow::startThreadShow);
+
+   connect(ui->PB_ThreadAppendStop, &QPushButton::clicked, this,&MainWindow::stopThreadAppend);
+   connect(ui->PB_ThreadDeleteStop, &QPushButton::clicked, this,&MainWindow::stopThreadDelete);
+   connect(ui->PB_ThreadShowStop, &QPushButton::clicked, this,&MainWindow::stopThreadShow);
+
+   connect(ui->PB_ThreadStopAll, &QPushButton::clicked, this, &MainWindow::stopAllThreads);
 
    ui->LE_Account->setInputMask(QString("999 999 999 999;_"));
    ui->LE_Amount->setValidator( new QIntValidator(INT32_MIN, INT32_MAX, this) );
+
+   for(int i=0; i<3;i++)
+      {threads[i]=false;}
 
    BankOperation *bo = new BankOperation(false);
    BankOperation *tempBo = new BankOperation(false);
@@ -47,6 +61,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
    *tbo = sum(*tbo,*tbo);
    *tbo = sum(*tbo,*bo);
    *bo = sum(*bo,*bo);
+
+
+   std::thread t1(&MainWindow::threadAppend, this);
+      std::thread t2(&MainWindow::threadDelete, this);
+      std::thread t3(&MainWindow::threadShow, this);
+   t1.detach();
+      t2.detach();
+      t3.detach();
 
    }
 
@@ -68,6 +90,52 @@ BankOperation *MainWindow::buildOperation(bool isCounted)
    op->setReciever(ui->LE_Reciever->text(),clients.value(ui->LE_Reciever->text()));
    op->setSender(ui->LE_Sender->text(),clients.value(ui->LE_Sender->text()));
    return op;
+   }
+
+void MainWindow::threadAppend()
+   {
+   static int i =0;
+   while(true){
+      if (threads[0]){
+         qDebug() << "thread append works" << i;
+         generateOperation();
+         }
+      else
+         qDebug() << "thread append not Works" << i++;
+      Sleep(100);
+      }
+   Sleep(100);
+   }
+
+void MainWindow::threadDelete()
+   {
+   static int i =0;
+   while(true){
+
+      if (threads[1]){
+         qDebug() << "thread delete works" << i++;
+         bankOperations.clear();
+         }
+      else
+         qDebug() << "thread delete not Works" << i++;
+      Sleep(1000);
+      }
+   Sleep(1000);
+   }
+
+void MainWindow::threadShow()
+   {
+   static int i =0;
+   while(true){
+      if (threads[1]){
+         qDebug() << "thread show works" << i++;
+         showTree();
+         }
+      else
+         qDebug() << "thread show not Works" << i++;
+      Sleep(500);
+      }
+   Sleep(500);
    }
 
 void MainWindow::clientApplied()
@@ -205,6 +273,18 @@ void MainWindow::on_TV_Clients_doubleClicked(const QModelIndex &index)
        !ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString().isEmpty())
       ui->LE_Sender->setText(ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString());
    else
-   if (!ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString().isEmpty())
-      ui->LE_Reciever->setText(ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString());
+      if (!ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString().isEmpty())
+         ui->LE_Reciever->setText(ui->TV_Clients->model()->data(ui->TV_Clients->model()->index(index.row(),0)).toString());
    }
+
+
+
+
+
+
+
+
+
+
+
+

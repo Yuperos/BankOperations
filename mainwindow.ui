@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>791</width>
-    <height>542</height>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -305,16 +305,55 @@
            </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="PB_BankOperationAppend">
-            <property name="text">
-             <string>Добавить</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QPushButton" name="PB_BankOperationAppend">
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="text">
+               <string>Удалить</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QCheckBox" name="CB_isTaxeOperation">
+              <property name="text">
+               <string>налог</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="LE_Taxe">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>%</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="CB_ShowAccountNumber">
             <property name="text">
-             <string>Удалить</string>
+             <string>Показывать номер счёта</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -357,38 +396,61 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QCheckBox" name="CB_isTaxeOperation">
-              <property name="text">
-               <string>налог</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="LE_Taxe">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>%</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="CB_ShowAccountNumber">
-            <property name="text">
-             <string>Показывать номер счёта</string>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Потоки</string>
             </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="PB_ThreadAppendStart">
+               <property name="text">
+                <string>Добавление</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="PB_ThreadDeleteStart">
+               <property name="text">
+                <string>Удаление</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="PB_ThreadAppendStop">
+               <property name="text">
+                <string>Стоп</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="PB_ThreadDeleteStop">
+               <property name="text">
+                <string>Стоп</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="PB_ThreadShowStart">
+               <property name="text">
+                <string>Вывод</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QPushButton" name="PB_ThreadShowStop">
+               <property name="text">
+                <string>Стоп</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0" colspan="2">
+              <widget class="QPushButton" name="PB_ThreadStopAll">
+               <property name="text">
+                <string>Прервать все потоки</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -488,8 +550,6 @@
   <tabstop>LE_Sender</tabstop>
   <tabstop>LE_Reciever</tabstop>
   <tabstop>LE_Taxe</tabstop>
-  <tabstop>PB_BankOperationAppend</tabstop>
-  <tabstop>pushButton_4</tabstop>
   <tabstop>LE_Name</tabstop>
   <tabstop>LE_Account</tabstop>
   <tabstop>PB_ClientApply</tabstop>
